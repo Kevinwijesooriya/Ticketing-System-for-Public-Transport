@@ -106,7 +106,7 @@ const TSTheme = createTheme({
     },
   },
   shape: {
-    borderRadius: 6,
+    borderRadius: 5,
   },
   typography: {
     htmlFontSize: 10,
@@ -281,13 +281,13 @@ const TSTheme = createTheme({
       ],
       styleOverrides: {
         root: {
-          textTransform: "uppercase",
-          fontSize: "16px",
-          minHeight: "48px",
-          minWidth: "48px",
-          lineHeight: "48px",
-          fontWeight: 500,
-          padding: "0px 24px",
+          // textTransform: "uppercase",
+          // fontSize: "16px",
+          // minHeight: "48px",
+          // minWidth: "48px",
+          // lineHeight: "48px",
+          // fontWeight: 500,
+          // padding: "0px 24px",
           fontFamily: Font.primary,
           backgroundColor: `${Colors.ts_darker_green}`,
           color: "#fff",
@@ -320,8 +320,6 @@ const TSTheme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          fontSize: "1.2rem",
-          fontWeight: 400,
           background: Colors.ts_light_green5,
         },
       },
@@ -370,7 +368,7 @@ const TSTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: Colors.ts_black,
+          backgroundColor: Colors.ts_white,
         },
       },
     },
