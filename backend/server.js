@@ -52,9 +52,11 @@ import fileUploadRoute from "./routes/fileUploadRoute.js";
 //route imports
 import userRoute from "./routes/user.js";
 import routeScheduleRoute from "./routes/routeSchedule.js";
+import driverRoute from "./routes/driverRoutes.js";
 //routes
 app.use("/api", imageUploadRoute);
 app.use("/api", fileUploadRoute);
 
 app.use(routeScheduleRoute);
 app.use(userRoute);
+app.use(driverRoute);
