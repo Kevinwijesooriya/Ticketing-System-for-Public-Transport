@@ -1,115 +1,57 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { StyledTableCell } from "../../../core/styles";
-import { Button, Grid, IconButton, Stack, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-function createData(
-  _id,
-  routerId,
-  startDestination,
-  endDestination,
-  arrivalTime,
-  departureTime,
-  busNumber,
-  availableDates
-) {
-  return {
-    _id,
-    routerId,
-    startDestination,
-    endDestination,
-    arrivalTime,
-    departureTime,
-    busNumber,
-    availableDates,
-  };
-}
-
-const rows = [
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-  createData(
-    "RID0012",
-    "RID0012",
-    "Malabe",
-    "Kaduwela",
-    "11:20 am",
-    "11:50 am",
-    "NA-9898",
-    "Weekdays"
-  ),
-];
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Button,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import RouteScheduleAPI from "../../../core/services/RouteScheduleAPI";
+import { StyledTableCell } from "../../../core/styles";
 
 export default function RouteScheduleView() {
+  const [callback, setCallback] = React.useState(false);
+  const [routeSchedules, setRouteSchedules] = React.useState([]);
+
+  async function fetchData() {
+    const response = await RouteScheduleAPI.getAll();
+    if (response.status === 200) {
+      setRouteSchedules(response.data.data);
+    }
+  }
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+  React.useEffect(() => {
+    fetchData();
+  }, [callback]);
+
+  const handleDelete = async (deleteId) => {
+    try {
+      const response = await RouteScheduleAPI.delete(deleteId);
+      console.log("🚀 ~ response", response);
+      setCallback(!callback);
+      toast.success("Route Schedule Delete Success");
+    } catch (error) {
+      setCallback(!callback);
+      toast.success("Route Schedule Delete Unsuccess");
+    }
+  };
+
   //search---------------------------------------------------------
   const [searchTerm, setSearchTerm] = React.useState("");
-  const filteredRows = rows.filter((row) => {
+  const filteredRows = routeSchedules.filter((row) => {
     return (
       row.startDestination
         .toLowerCase()
@@ -188,7 +130,12 @@ export default function RouteScheduleView() {
                     >
                       <EditIcon />
                     </IconButton>
-                    <IconButton size="small" edge="start" color="inherit">
+                    <IconButton
+                      size="small"
+                      edge="start"
+                      color="inherit"
+                      onClick={() => handleDelete(row._id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </Stack>
