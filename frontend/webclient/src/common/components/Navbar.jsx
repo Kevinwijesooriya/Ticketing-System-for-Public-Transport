@@ -22,7 +22,7 @@ const Navbar = () => {
         <Tab
           label="Drivers"
           component={Link}
-          to="driver"
+          to="route-driver"
           sx={{ color: "white" }}
         />
         <Tab
