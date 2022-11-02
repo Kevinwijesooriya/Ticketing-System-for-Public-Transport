@@ -38,10 +38,10 @@ class RouteScheduleAPI {
     }
   };
 
-  static update = async ({ postId, payload }) => {
+  static update = async ({ id, payload }) => {
     try {
       const response = await axiosClient().put(
-        `/api/routeSchedule/update/${postId}`,
+        `/api/routeSchedule/update/${id}`,
         payload
       );
       console.log("API ~ Route Schedule ~ update ", response);
