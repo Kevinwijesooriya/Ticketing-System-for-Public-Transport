@@ -21,23 +21,31 @@ const routeScheduleController = {
   },
   createRouteSchedule: async (req, res) => {
     try {
-      const { userId, userName, title, description, image } = req.body;
-      const ExistingPost = await RouteSchedule.findOne({ title });
+      const { routerId,
+        startDestination,
+        endDestination,
+        arrivalTime,
+        departureTime,
+        busNumber,
+        availableDates } = req.body;
+      const ExistingPost = await RouteSchedule.findOne({ routerId });
       if (ExistingPost)
         return res.status(400).json({
           message:
-            "Someone has a post with the same title. Please use another title.",
+            "Someone has a schedule with the same router Id. Please use another router Id.",
         });
 
-      if (!title || !description || !image || !userId)
+      if (!routerId || !startDestination || !endDestination || !arrivalTime|| !departureTime|| !busNumber|| !availableDates)
         return res.status(400).json({ msg: "Please fill in all fields." });
 
       const newRouteSchedule = new RouteSchedule({
-        userId,
-        userName,
-        title,
-        description,
-        image,
+        routerId,
+        startDestination,
+        endDestination,
+        arrivalTime,
+        departureTime,
+        busNumber,
+        availableDates
       });
       await newRouteSchedule.save();
       res.json({
@@ -52,15 +60,33 @@ const routeScheduleController = {
   updateRouteSchedule: async (req, res) => {
     try {
       const id = req.params.id;
-      const { title, description, image } = req.body;
+      const { routerId,
+        startDestination,
+        endDestination,
+        arrivalTime,
+        departureTime,
+        busNumber,
+        availableDates } = req.body;
 
       await RouteSchedule.findOneAndUpdate(
         { _id: id },
-        { title, description, image }
+        { routerId,
+        startDestination,
+        endDestination,
+        arrivalTime,
+        departureTime,
+        busNumber,
+        availableDates }
       );
       res.json({
         message: "Route Schedule update success",
-        data: { title, description, image },
+        data: { routerId,
+        startDestination,
+        endDestination,
+        arrivalTime,
+        departureTime,
+        busNumber,
+        availableDates },
       });
     } catch (err) {
       return res.status(500).json({ message: err.message });
