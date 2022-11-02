@@ -2,6 +2,8 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import Wrapper from "../../../common/components/Wrapper";
 import InspectorsPage from "../views";
+import AddInspector from "../views/AddInspector";
+import EditInspector from "../views/EditInspector";
 
 const InspectorRoutes = [
   {
@@ -10,8 +12,8 @@ const InspectorRoutes = [
     children: [
       { path: "", element: <Navigate to="view" /> },
       { path: "view", element: <InspectorsPage /> },
-      //   { path: "add", element: <AddPost /> },
-      //   { path: "edit/:id", element: <EditPost /> },
+      { path: "add", element: <AddInspector /> },
+      { path: "edit/:id", element: <EditInspector /> },
       //   { path: "view/:id", element: <ViewOne /> },
     ],
   },

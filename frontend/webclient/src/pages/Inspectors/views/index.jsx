@@ -1,7 +1,12 @@
 import React from "react";
+import InspectorView from "./InspectorView";
 
-const InspectorsPage = () => {
-  return <>InspectorsPage</>;
+const InspectorPage = () => {
+  return (
+    <>
+      <InspectorView />
+    </>
+  );
 };
 
-export default InspectorsPage;
+export default InspectorPage;
