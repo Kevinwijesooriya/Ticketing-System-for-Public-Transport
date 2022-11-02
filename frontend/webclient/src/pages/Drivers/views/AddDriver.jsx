@@ -1,67 +1,39 @@
+import React from "react";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import Container from "@mui/material/Container";
-import InputLabel from "@mui/material/InputLabel";
-import { useSelector } from "react-redux";
-import React, { useState } from "react";
-import axios from "axios";
+import DriverAPI from "../../../core/services/DrivesAPI.js";
+import { toast } from "react-toastify";
 
 const AddDriver = () => {
-  const [open, setOpen] = React.useState(false);
-  const [userID, setUserID] = useState("");
-  const [driverName, setDriverName] = useState("");
-  const [dEmail, setDEmail] = useState("");
-  const [dPhoneNumber, setDPhoneNumber] = useState("");
-  const [dPassword, setDPassword] = useState("");
-  const [dAddress, setDAddress] = useState("");
-  const [dNic, setDNic] = useState("");
-  const [dBusNo, setDBusNo] = useState("");
-  const [error, setError] = React.useState({ message: "", field: "" });
+  const [error, setError] = React.useState({ field: "", message: "" });
+  const [postPayload, setPostPayload] = React.useState({
+    driverName: "",
+    dEmail: "",
+    dPhoneNumber: "",
+    dPassword: "",
+    dAddress: "",
+    dNic: "",
+    dBusNo: "",
+  });
 
-  function sendData(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    const response = await DriverAPI.create(postPayload);
+    console.log("~ onSubmit ~ response", response);
+    if (response.status === 200) {
+      toast.success("Driver Added Successfully");
+    } else {
+      toast.error("Ops! Something went wrong");
+    }
+  };
 
-    const newPost = {
-      driverName,
-      dEmail,
-      dPhoneNumber,
-      dPassword,
-      dAddress,
-      dNic,
-      dBusNo,
-    };
-    if (isValid()) {
-      axios
-        .post("http://localhost:5000/api/driver/register", newPost)
-        .then((res) => {
-          console.log(res);
-          setOpen(true);
-          setDriverName("");
-          setDEmail("");
-          setDPhoneNumber("");
-          setDPassword("");
-          setDAddress("");
-          setDNic("");
-          dBusNo("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
-  const isValid = () => {
-    if (driverName === "") {
-      setError({ field: "Name", message: "Please fill me" });
-      return false;
-    }
-    if (dEmail === "") {
-      setError({ field: "E-mail", message: "Please fill me" });
-      return false;
-    }
-    return true;
+  const onChangeInput = (e) => {
+    console.log("onChange", postPayload);
+    setError({ field: "", message: "" });
+    setPostPayload({
+      ...postPayload,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -84,12 +56,12 @@ const AddDriver = () => {
           <Grid item xs={6} md={8}>
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="driverName"
               variant="outlined"
-              onChange={(e) => {
-                setDriverName(e.target.value);
-                setError({ field: "", message: "" });
-              }}
+              name="driverName"
+              error={error.field === "driverName"}
+              helperText={!postPayload.driverName && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -98,11 +70,12 @@ const AddDriver = () => {
           <Grid item xs={6} md={8}>
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="dEmail"
               variant="outlined"
-              onChange={(e) => {
-                setDEmail(e.target.value);
-              }}
+              name="dEmail"
+              error={error.field === "dEmail"}
+              helperText={!postPayload.dEmail && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -111,11 +84,12 @@ const AddDriver = () => {
           <Grid item xs={6} md={8}>
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="dPhoneNumber"
               variant="outlined"
-              onChange={(e) => {
-                setDPhoneNumber(e.target.value);
-              }}
+              name="dPhoneNumber"
+              error={error.field === "dPhoneNumber"}
+              helperText={!postPayload.dPhoneNumber && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -123,12 +97,12 @@ const AddDriver = () => {
           </Grid>
           <Grid item xs={6} md={8}>
             <TextField
-              fullWidth
-              id="outlined-basic"
+              id="dPassword"
               variant="outlined"
-              onChange={(e) => {
-                setDPassword(e.target.value);
-              }}
+              name="dPassword"
+              error={error.field === "dPassword"}
+              helperText={!postPayload.arrivalTime && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -137,11 +111,12 @@ const AddDriver = () => {
           <Grid item xs={6} md={8}>
             <TextField
               fullWidth
-              id="outlined-basic"
               variant="outlined"
-              onChange={(e) => {
-                setDAddress(e.target.value);
-              }}
+              id="dAddress"
+              name="dAddress"
+              error={error.field === "dAddress"}
+              helperText={!postPayload.dAddress && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -150,11 +125,12 @@ const AddDriver = () => {
           <Grid item xs={6} md={8}>
             <TextField
               fullWidth
-              id="outlined-basic"
+              id="dNic"
               variant="outlined"
-              onChange={(e) => {
-                setDNic(e.target.value);
-              }}
+              name="dNic"
+              error={error.field === "dNic"}
+              helperText={!postPayload.dNic && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -162,12 +138,12 @@ const AddDriver = () => {
           </Grid>
           <Grid item xs={6} md={8}>
             <TextField
-              fullWidth
-              id="outlined-basic"
+              id="dBusNo"
               variant="outlined"
-              onChange={(e) => {
-                setDBusNo(e.target.value);
-              }}
+              name="dBusNo"
+              error={error.field === "dBusNo"}
+              helperText={!postPayload.dBusNo && error.message}
+              onChange={(e) => onChangeInput(e)}
             />
           </Grid>
           <Grid
@@ -177,7 +153,7 @@ const AddDriver = () => {
             alignItems="center"
             padding="24px"
           >
-            <Button onClick={sendData}>REgister Driver</Button>
+            <Button onClick={(e) => onSubmit(e)}>REgister Driver</Button>
             <Button component={Link} to="/ts/route-driver/view">
               Back To Main
             </Button>
