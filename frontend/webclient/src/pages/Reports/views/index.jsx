@@ -9,6 +9,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Grid, CardActionArea, CardActions } from '@mui/material';
 import DriversReportGenerator from "./Drivers";
+import InspectorsAPI from "../../../core/services/InspectorsAPI";
+import InspectorReportGenerator from "./Inspector";
 
 const ReportPage = () => {
   const [routeSchedules, setRouteSchedules] = React.useState([]);
@@ -27,10 +29,19 @@ const ReportPage = () => {
     }
   }
 
+  const [inspectors, setInspectors] = React.useState([]);
+  async function fetchInspectorsData() {
+    const response = await InspectorsAPI.getAll();
+    if (response.status === 200) {
+      setInspectors(response.data.data);
+    }
+  }
+
 
   React.useEffect(() => {
     fetchRouteScheduleData()
     fetchDriversData()
+    fetchInspectorsData()
   }, [])
 
   return <>
@@ -101,7 +112,7 @@ const ReportPage = () => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" onClick={() => RouteScheduleReportGenerator(routeSchedules)}>Download</Button>
+            <Button size="small" color="primary" onClick={() => InspectorReportGenerator(inspectors)}>Download</Button>
         </CardActions>
         </Card></Grid></Grid>
   </>;
