@@ -44,78 +44,105 @@ const ReportPage = () => {
     fetchInspectorsData()
   }, [])
 
-  return <>
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-evenly"
-      alignItems="center"
-      columns={13}
-    ><Grid item xs={3}>
-    <Card sx={{ maxWidth: 300 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="core/images/image"
-          alt="Route Schedule"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Route Schedule Report
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            You can get report for route Schedule Report
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-            <Button size="small" color="primary" onClick={() => RouteScheduleReportGenerator(routeSchedules)}>Download</Button>  
-      </CardActions> 
-        </Card></Grid><Grid item xs={3}>
-      <Card sx={{ maxWidth: 300 }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="140"
-            image="core/images/image"
-            alt="Route Schedule"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Drivers Report
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              You can get report for route Schedule Report
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-            <Button size="small" color="primary" onClick={() => DriversReportGenerator(drivers)}>Download</Button>
-        </CardActions>
-        </Card></Grid><Grid item xs={3}>
-      <Card sx={{ maxWidth: 300 }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="140"
-            image="core/images/image"
-            alt="Route Schedule"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Inspectors Report
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              You can get report for route Schedule Report
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-            <Button size="small" color="primary" onClick={() => InspectorReportGenerator(inspectors)}>Download</Button>
-        </CardActions>
-        </Card></Grid></Grid>
-  </>;
+  return (
+    <>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-evenly"
+        alignItems="center"
+        columns={13}
+      >
+        <Grid item xs={3}>
+          <Card sx={{ maxWidth: 300 }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="core/images/image"
+                alt="Route Schedule"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Route Schedule Report
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  You can get report for route Schedule Report
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => RouteScheduleReportGenerator(routeSchedules)}
+              >
+                Download
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card sx={{ maxWidth: 300, height: "400px" }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="core/images/image"
+                alt="Route Schedule"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Drivers Report
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  You can get report for route Schedule Report
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => DriversReportGenerator(drivers)}
+              >
+                Download
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card sx={{ maxWidth: 300, height: "400px" }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image="core/images/image"
+                alt="Route Schedule"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Inspectors Report
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  You can get report for route Schedule Report
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => InspectorReportGenerator(inspectors)}
+              >
+                Download
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
+    </>
+  );
 };
 
 export default ReportPage;

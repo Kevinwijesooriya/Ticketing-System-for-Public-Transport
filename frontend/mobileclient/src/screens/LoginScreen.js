@@ -11,13 +11,9 @@ import {
 	KeyboardAvoidingView,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Loader from '../components/Loader';
-
 const LoginScreen = ({ navigation }) => {
 	const [userEmail, setUserEmail] = useState('');
 	const [userPassword, setUserPassword] = useState('');
-	const [loading, setLoading] = useState(false);
 	const [errortext, setErrortext] = useState('');
 
 	const passwordInputRef = createRef();
@@ -32,50 +28,11 @@ const LoginScreen = ({ navigation }) => {
 			alert('Please fill Password');
 			return;
 		}
-		setLoading(true);
-		let dataToSend = { email: userEmail, password: userPassword };
-		let formBody = [];
-		for (let key in dataToSend) {
-			let encodedKey = encodeURIComponent(key);
-			let encodedValue = encodeURIComponent(dataToSend[key]);
-			formBody.push(encodedKey + '=' + encodedValue);
-		}
-		formBody = formBody.join('&');
-
-		fetch('http://localhost:3000/api/user/login', {
-			method: 'POST',
-			body: formBody,
-			headers: {
-				//Header Definition
-				'Content-Type':
-					'application/x-www-form-urlencoded;charset=UTF-8',
-			},
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				//Hide Loader
-				setLoading(false);
-				console.log(responseJson);
-				// If server response message same as Data Matched
-				if (responseJson.status === 'success') {
-					AsyncStorage.setItem('user_id', responseJson.data.email);
-					console.log(responseJson.data.email);
-					navigation.replace('DrawerNavigationRoutes');
-				} else {
-					setErrortext(responseJson.msg);
-					console.log('Please check your email id or password');
-				}
-			})
-			.catch(error => {
-				//Hide Loader
-				setLoading(false);
-				console.error(error);
-			});
+		navigation.navigate('Home');
 	};
 
 	return (
 		<View style={styles.mainBody}>
-			<Loader loading={loading} />
 			<ScrollView
 				keyboardShouldPersistTaps="handled"
 				contentContainerStyle={{
@@ -86,8 +43,11 @@ const LoginScreen = ({ navigation }) => {
 				<View>
 					<KeyboardAvoidingView enabled>
 						<View style={{ alignItems: 'center' }}>
+							<Text style={styles.titleTextStyle}>
+								ONLINE TICKETING SYSTEM
+							</Text>
 							<Image
-								source={require('../assets/images/kopark_logo.png')}
+								source={require('../assets/images/TS_Logo.png')}
 								style={{
 									width: '50%',
 									height: 100,
@@ -103,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
 									setUserEmail(UserEmail)
 								}
 								placeholder="Enter Email" //dummy@abc.com
-								// placeholderTextColor="#8b9cb5"
+								placeholderTextColor="#1a5ca6"
 								autoCapitalize="none"
 								keyboardType="email-address"
 								returnKeyType="next"
@@ -122,7 +82,7 @@ const LoginScreen = ({ navigation }) => {
 									setUserPassword(UserPassword)
 								}
 								placeholder="Enter Password" //12345
-								// placeholderTextColor="#8b9cb5"
+								placeholderTextColor="#1a5ca6"
 								keyboardType="default"
 								ref={passwordInputRef}
 								onSubmitEditing={Keyboard.dismiss}
@@ -174,7 +134,7 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 	buttonStyle: {
-		// backgroundColor: '#7DE24E',
+		backgroundColor: '#004a9c',
 		borderWidth: 0,
 		// color: '#FFFFFF',
 		// borderColor: '#7DE24E',
@@ -187,21 +147,27 @@ const styles = StyleSheet.create({
 		marginBottom: 25,
 	},
 	buttonTextStyle: {
-		// color: '#FFFFFF',
+		color: '#FFFFFF',
 		paddingVertical: 10,
 		fontSize: 16,
 	},
+	titleTextStyle: {
+		color: '#004a9c',
+		paddingVertical: 10,
+		fontSize: 30,
+		fontWeight: 'bold',
+	},
 	inputStyle: {
 		flex: 1,
-		color: 'white',
+		color: '#336eb0',
 		paddingLeft: 15,
 		paddingRight: 15,
 		borderWidth: 1,
 		borderRadius: 30,
-		// borderColor: '#dadae8',
+		borderColor: '#336eb0',
 	},
 	registerTextStyle: {
-		// color: '#FFFFFF',
+		color: '#004a9c',
 		textAlign: 'center',
 		fontWeight: 'bold',
 		fontSize: 14,
