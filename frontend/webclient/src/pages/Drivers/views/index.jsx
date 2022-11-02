@@ -1,7 +1,12 @@
 import React from "react";
+import DriverDetailsView from "./DriverDetailsView";
 
 const DriverPage = () => {
-  return <>DriverPage</>;
+  return (
+    <>
+      <DriverDetailsView />
+    </>
+  );
 };
 
 export default DriverPage;
