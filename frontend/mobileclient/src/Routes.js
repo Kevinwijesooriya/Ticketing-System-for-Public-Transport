@@ -7,6 +7,10 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegistrationScreen';
 import InspectorScreen from './screens/InspectorScreen';
 import QRScreen from './screens/QRScreen';
+import GetQRScreen from './screens/GetQRScreen';
+import ValidUserScreen from './screens/ValidUser';
+import EndQRScreen from './screens/EndQRScreen';
+import EndUserJourneyScreen from './screens/EndUserJourney';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +38,13 @@ const Routes = () => {
 					component={InspectorScreen}
 				/>
 				<Stack.Screen name="QRScreen" component={QRScreen} />
+				<Stack.Screen name="GetQRScreen" component={GetQRScreen} />
+				<Stack.Screen name="ValidUser" component={ValidUserScreen} />
+				<Stack.Screen name="EndQRScreen" component={EndQRScreen} />
+				<Stack.Screen
+					name="EndUserJourney"
+					component={EndUserJourneyScreen}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

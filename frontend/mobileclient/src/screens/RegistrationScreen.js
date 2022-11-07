@@ -1,4 +1,4 @@
-import React, { useState, createRef } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import {
 	StyleSheet,
 	TextInput,
@@ -9,24 +9,36 @@ import {
 	Keyboard,
 	TouchableOpacity,
 	ScrollView,
+	Switch,
 } from 'react-native';
 
 import Loader from '../components/Loader';
+import { apiSauce } from '../interceptors/APIClient';
 
 const RegisterScreen = props => {
 	const [userName, setUserName] = useState('');
 	const [userEmail, setUserEmail] = useState('');
-	const [userAge, setUserAge] = useState('');
-	const [userAddress, setUserAddress] = useState('');
+	const [userRole, setUserRole] = useState('user');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [userPassword, setUserPassword] = useState('');
-	const [loading, setLoading] = useState(false);
 	const [errortext, setErrortext] = useState('');
 	const [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
+	const [isEnabled, setIsEnabled] = useState(false);
 
 	const emailInputRef = createRef();
 	const ageInputRef = createRef();
-	const addressInputRef = createRef();
 	const passwordInputRef = createRef();
+	useEffect(() => {
+		if (isEnabled) {
+			setUserRole('inspector');
+		} else {
+			setUserRole('user');
+		}
+	}, [isEnabled]);
+
+	const toggleSwitch = () => {
+		setIsEnabled(!isEnabled);
+	};
 
 	const handleSubmitButton = () => {
 		setErrortext('');
@@ -38,18 +50,29 @@ const RegisterScreen = props => {
 			alert('Please fill Email');
 			return;
 		}
-		if (!userAge) {
-			alert('Please fill Age');
-			return;
-		}
-		if (!userAddress) {
-			alert('Please fill Address');
-			return;
-		}
 		if (!userPassword) {
 			alert('Please fill Password');
 			return;
 		}
+		if (userPassword !== confirmPassword) {
+			alert('Password does not match');
+			return;
+		}
+		console.log('Login payload', {
+			email: userEmail,
+			password: userPassword,
+		});
+		apiSauce
+			.post('/api/user/register', {
+				userName,
+				role: userRole,
+				email: userEmail,
+				password: userPassword,
+			})
+			.then(response => {
+				console.log('Registration', response);
+			})
+			.catch(error => console.log('Registration error', error));
 
 		setIsRegistraionSuccess(true);
 	};
@@ -83,7 +106,6 @@ const RegisterScreen = props => {
 	}
 	return (
 		<View style={{ flex: 1 }}>
-			<Loader loading={loading} />
 			<ScrollView
 				keyboardShouldPersistTaps="handled"
 				contentContainerStyle={{
@@ -102,6 +124,7 @@ const RegisterScreen = props => {
 					/>
 				</View>
 				<KeyboardAvoidingView enabled>
+					<Text style={styles.labelTextStyle}>Name</Text>
 					<View style={styles.SectionStyle}>
 						<TextInput
 							style={styles.inputStyle}
@@ -118,6 +141,7 @@ const RegisterScreen = props => {
 							blurOnSubmit={false}
 						/>
 					</View>
+					<Text style={styles.labelTextStyle}>Email</Text>
 					<View style={styles.SectionStyle}>
 						<TextInput
 							style={styles.inputStyle}
@@ -135,6 +159,19 @@ const RegisterScreen = props => {
 							blurOnSubmit={false}
 						/>
 					</View>
+					<Text style={styles.labelTextStyle}>
+						Register as an Inspector
+					</Text>
+					<View style={styles.SectionStyle}>
+						<Switch
+							trackColor={{ false: '#767577', true: '#4472C4' }}
+							thumbColor={isEnabled ? '#004a9c' : '#f4f3f4'}
+							ios_backgroundColor="#3e3e3e"
+							onValueChange={toggleSwitch}
+							value={isEnabled}
+						/>
+					</View>
+					<Text style={styles.labelTextStyle}>Password</Text>
 					<View style={styles.SectionStyle}>
 						<TextInput
 							style={styles.inputStyle}
@@ -154,35 +191,19 @@ const RegisterScreen = props => {
 							blurOnSubmit={false}
 						/>
 					</View>
+					<Text style={styles.labelTextStyle}>Confirm Password</Text>
 					<View style={styles.SectionStyle}>
 						<TextInput
 							style={styles.inputStyle}
-							onChangeText={UserAge => setUserAge(UserAge)}
+							onChangeText={ConfirmPassword =>
+								setConfirmPassword(ConfirmPassword)
+							}
 							underlineColorAndroid="#f000"
-							placeholder="Enter Age"
+							placeholder="Enter Confirm Password"
 							placeholderTextColor="#8b9cb5"
-							keyboardType="numeric"
 							ref={ageInputRef}
 							returnKeyType="next"
-							onSubmitEditing={() =>
-								addressInputRef.current &&
-								addressInputRef.current.focus()
-							}
-							blurOnSubmit={false}
-						/>
-					</View>
-					<View style={styles.SectionStyle}>
-						<TextInput
-							style={styles.inputStyle}
-							onChangeText={UserAddress =>
-								setUserAddress(UserAddress)
-							}
-							underlineColorAndroid="#f000"
-							placeholder="Enter Address"
-							placeholderTextColor="#8b9cb5"
-							autoCapitalize="sentences"
-							ref={addressInputRef}
-							returnKeyType="next"
+							secureTextEntry={true}
 							onSubmitEditing={Keyboard.dismiss}
 							blurOnSubmit={false}
 						/>
@@ -249,5 +270,10 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontSize: 18,
 		padding: 30,
+	},
+	labelTextStyle: {
+		color: '#00264f',
+		marginLeft: 35,
+		fontSize: 14,
 	},
 });

@@ -1,23 +1,25 @@
+/* eslint-disable no-alert */
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { apiSauce } from '../interceptors/APIClient';
 // import { RNCamera } from 'react-native-camera';
-const QRScreen = ({}) => {
+const EndQRScreen = ({}) => {
 	const navigation = useNavigation();
 	const onSuccess = e => {
-		console.log('🚀 ~ file: QRScreen.js ~ line 15 ~ onSuccess ~ e', e);
+		console.log('🚀 ~ file: EndQRScreen.js ~ line 15 ~ onSuccess ~ e', e);
 		verifyUser(e.data);
 	};
 	const verifyUser = async id => {
 		try {
-			const response = await apiSauce.get(`/api/user/get/${id}`);
+			const response = await apiSauce.get(`/api/journey/get/${id}`);
 			if (response.status === 200) {
-				navigation.navigate('ValidUser', { data: response.data });
+				navigation.navigate('EndUserJourney', { data: response.data });
 			} else {
-				alert('Invalid user');
+				alert('User is not in onGoing state');
 			}
 		} catch (err) {
 			console.log('verifyUser ~ err', err);
@@ -31,7 +33,7 @@ const QRScreen = ({}) => {
 				// flashMode={RNCamera.Constants.FlashMode.torch}
 				topContent={
 					<Text style={styles.centerText}>
-						Scan the QR code at the starting point.
+						Scan the QR code at the destination.
 					</Text>
 				}
 				bottomContent={
@@ -39,6 +41,10 @@ const QRScreen = ({}) => {
 						<Text style={styles.buttonText}>QR</Text>
 					</TouchableOpacity>
 				}
+			/>
+			<Button
+				title="Back To Home"
+				onPress={() => navigation.navigate('Home')}
 			/>
 		</>
 	);
@@ -62,4 +68,4 @@ const styles = StyleSheet.create({
 		padding: 16,
 	},
 });
-export default QRScreen;
+export default EndQRScreen;
