@@ -26,13 +26,18 @@ const routeScheduleSchema = new Schema(
       type: Object,
       required: true,
     },
-    busNumber: {
-      type: Object,
-      required: true,
-    },
+    busNumber: [
+      {
+        number: String,
+      },
+    ],
     availableDates: {
       type: Object,
       required: true,
+    },
+    overcrowded: {
+      type: Boolean,
+      default: false,
     },
   },
   {

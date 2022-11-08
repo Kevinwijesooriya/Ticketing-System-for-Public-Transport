@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import RouteScheduleAPI from "../../../core/services/RouteScheduleAPI";
 import { StyledTableCell } from "../../../core/styles";
+import AddABus from "./AddABus";
 
 export default function RouteScheduleView() {
   const [callback, setCallback] = React.useState(false);
@@ -93,6 +94,7 @@ export default function RouteScheduleView() {
               <StyledTableCell align="right">Departure Time</StyledTableCell>
               <StyledTableCell align="right">Bus Number</StyledTableCell>
               <StyledTableCell align="right">Available Dates</StyledTableCell>
+              <StyledTableCell align="right">Overcrowded</StyledTableCell>
               <StyledTableCell align="right">Actions</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -101,6 +103,7 @@ export default function RouteScheduleView() {
               <TableRow
                 key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                selected={row.overcrowded}
               >
                 <StyledTableCell align="right">{row.routerId}</StyledTableCell>
                 <StyledTableCell align="right">
@@ -115,9 +118,22 @@ export default function RouteScheduleView() {
                 <StyledTableCell align="right">
                   {row.departureTime}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.busNumber}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.busNumber.map((number) => number.number)}
+                </StyledTableCell>
                 <StyledTableCell align="right">
                   {row.availableDates}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {row.overcrowded ? (
+                    <AddABus
+                      callback={callback}
+                      setCallback={setCallback}
+                      id={row._id}
+                    />
+                  ) : (
+                    "No"
+                  )}
                 </StyledTableCell>
                 <StyledTableCell align="right">
                   <Stack direction="row" spacing={1}>

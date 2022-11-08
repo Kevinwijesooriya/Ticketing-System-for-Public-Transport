@@ -18,6 +18,23 @@ const InspectorScreen = ({ navigation }) => {
 				onPress={() => navigation.navigate('EndQRScreen')}>
 				<Text style={styles.buttonTextStyle}>End QR scan</Text>
 			</TouchableOpacity>
+			<View style={{ alignItems: 'center' }}>
+				<Text style={styles.titleTextStyle}>USING SMART ID NUMBER</Text>
+			</View>
+			<TouchableOpacity
+				style={styles.buttonStyle}
+				activeOpacity={0.5}
+				onPress={() => navigation.navigate('InitialIDValidation')}>
+				<Text style={styles.buttonTextStyle}>
+					Initial ID Validation
+				</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.buttonStyle}
+				activeOpacity={0.5}
+				onPress={() => navigation.navigate('EndIDValidation')}>
+				<Text style={styles.buttonTextStyle}>End ID Validation</Text>
+			</TouchableOpacity>
 		</>
 	);
 };

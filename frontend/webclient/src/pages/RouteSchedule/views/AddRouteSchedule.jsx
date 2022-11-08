@@ -12,7 +12,7 @@ const AddRouteSchedule = () => {
     endDestination: "",
     arrivalTime: "",
     departureTime: "",
-    busNumber: "",
+    busNumber: [],
     availableDates: "",
   });
 
@@ -30,10 +30,19 @@ const AddRouteSchedule = () => {
   const onChangeInput = (e) => {
     console.log("onChange", postPayload);
     setError({ field: "", message: "" });
-    setPostPayload({
-      ...postPayload,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "busNumber") {
+      let arr = [];
+      arr.push({ number: e.target.value });
+      setPostPayload({
+        ...postPayload,
+        [e.target.name]: arr,
+      });
+    } else {
+      setPostPayload({
+        ...postPayload,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   return (

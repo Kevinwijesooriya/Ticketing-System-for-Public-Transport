@@ -70,11 +70,15 @@ const RegisterScreen = props => {
 				password: userPassword,
 			})
 			.then(response => {
+				if (response.status !== 200) {
+					alert(response.data.message);
+					setIsRegistraionSuccess(false);
+					return;
+				}
 				console.log('Registration', response);
+				setIsRegistraionSuccess(true);
 			})
 			.catch(error => console.log('Registration error', error));
-
-		setIsRegistraionSuccess(true);
 	};
 	if (isRegistraionSuccess) {
 		return (

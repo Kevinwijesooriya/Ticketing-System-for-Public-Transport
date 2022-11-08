@@ -64,5 +64,18 @@ class RouteScheduleAPI {
       return error;
     }
   };
+  static addABus = async ({ id, payload }) => {
+    try {
+      const response = await axiosClient().put(
+        `/api/routeSchedule/add-a-bus/${id}`,
+        payload
+      );
+      console.log("API ~ Route Schedule ~ addABus ", response);
+      return response;
+    } catch (error) {
+      console.log("ERROR-API ~ Route Schedule ~ addABus ", error);
+      return error;
+    }
+  };
 }
 export default RouteScheduleAPI;

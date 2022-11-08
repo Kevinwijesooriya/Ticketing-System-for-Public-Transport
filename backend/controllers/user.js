@@ -36,7 +36,7 @@ const userController = {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      res.json({
+      res.status(200).json({
         _id: user.id,
         email: user.email,
         userName: user.userName,

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 const GetQRScreen = ({ navigation }) => {
@@ -24,20 +24,37 @@ const GetQRScreen = ({ navigation }) => {
 	);
 	return (
 		<>
-			<Text style={styles.labelTextStyle}>_id - {userData._id}</Text>
-			<Text style={styles.labelTextStyle}>email - {userData.email}</Text>
-			<Text style={styles.labelTextStyle}>role - {userData.role}</Text>
-			<Text style={styles.labelTextStyle}>
-				userName - {userData.userName}
-			</Text>
-			<QRCode value={userData._id} />
+			<View style={styles.centerStyle}>
+				<Text style={styles.titleTextStyle}>YOUR QR CODE</Text>
+				<Text style={styles.labelTextStyle}>ID - {userData._id}</Text>
+				<Text style={styles.labelTextStyle}>
+					E-mail - {userData.email}
+				</Text>
+				<Text style={styles.labelTextStyle}>
+					Username - {userData.userName}
+				</Text>
+				<View style={styles.imageStyle}>
+					<QRCode value={userData._id} />
+				</View>
+			</View>
 		</>
 	);
 };
 export default GetQRScreen;
 const styles = StyleSheet.create({
 	labelTextStyle: {
-		color: '#00264f',
+		color: '#004a9c',
 		fontSize: 14,
+		marginTop: 20,
+	},
+	centerStyle: { alignItems: 'center' },
+	imageStyle: {
+		marginTop: 30,
+	},
+	titleTextStyle: {
+		color: '#004a9c',
+		paddingVertical: 10,
+		fontSize: 30,
+		fontWeight: 'bold',
 	},
 });

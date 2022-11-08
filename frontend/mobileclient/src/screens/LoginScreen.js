@@ -45,6 +45,10 @@ const LoginScreen = ({ navigation }) => {
 				email: userEmail,
 				password: userPassword,
 			});
+			if (response.status !== 200) {
+				alert(response.data.msg);
+				return;
+			}
 			console.log('Login', response);
 			const auth = response.data;
 			if (auth) {
