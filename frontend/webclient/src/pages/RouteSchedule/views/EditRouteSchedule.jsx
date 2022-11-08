@@ -15,7 +15,6 @@ const EditRouteSchedule = () => {
     endDestination: "",
     arrivalTime: "",
     departureTime: "",
-    busNumber: "",
     availableDates: "",
   });
 
@@ -140,21 +139,6 @@ const EditRouteSchedule = () => {
               name="departureTime"
               error={error.field === "departureTime"}
               helperText={!payload.departureTime && error.message}
-              onChange={(e) => onChangeInput(e)}
-            />
-          </Grid>
-          <Grid item xs={6} md={4}>
-            <Typography variant="h6">Bus Number</Typography>
-          </Grid>
-          <Grid item xs={6} md={8}>
-            <TextField
-              fullWidth
-              id="busNumber"
-              variant="outlined"
-              value={payload.busNumber}
-              name="busNumber"
-              error={error.field === "busNumber"}
-              helperText={!payload.busNumber && error.message}
               onChange={(e) => onChangeInput(e)}
             />
           </Grid>

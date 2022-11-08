@@ -14,20 +14,34 @@ const routeScheduleController = {
   getRouteSchedules: async (req, res) => {
     try {
       const posts = await RouteSchedule.find();
-      res.json({ message: "Route Schedules fetch success", data: posts });
+      res
+        .status(200)
+        .json({ message: "Route Schedules fetch success", data: posts });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  },
+  getNonCrowdedRouteSchedules: async (req, res) => {
+    try {
+      const posts = await RouteSchedule.find({ overcrowded: false });
+      res
+        .status(200)
+        .json({ message: "Route Schedules fetch success", data: posts });
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }
   },
   createRouteSchedule: async (req, res) => {
     try {
-      const { routerId,
+      const {
+        routerId,
         startDestination,
         endDestination,
         arrivalTime,
         departureTime,
         busNumber,
-        availableDates } = req.body;
+        availableDates,
+      } = req.body;
       const ExistingPost = await RouteSchedule.findOne({ routerId });
       if (ExistingPost)
         return res.status(400).json({
@@ -35,7 +49,15 @@ const routeScheduleController = {
             "Someone has a schedule with the same router Id. Please use another router Id.",
         });
 
-      if (!routerId || !startDestination || !endDestination || !arrivalTime|| !departureTime|| !busNumber|| !availableDates)
+      if (
+        !routerId ||
+        !startDestination ||
+        !endDestination ||
+        !arrivalTime ||
+        !departureTime ||
+        !busNumber ||
+        !availableDates
+      )
         return res.status(400).json({ msg: "Please fill in all fields." });
 
       const newRouteSchedule = new RouteSchedule({
@@ -45,7 +67,7 @@ const routeScheduleController = {
         arrivalTime,
         departureTime,
         busNumber,
-        availableDates
+        availableDates,
       });
       await newRouteSchedule.save();
       res.json({
@@ -60,33 +82,39 @@ const routeScheduleController = {
   updateRouteSchedule: async (req, res) => {
     try {
       const id = req.params.id;
-      const { routerId,
+      const {
+        routerId,
         startDestination,
         endDestination,
         arrivalTime,
         departureTime,
         busNumber,
-        availableDates } = req.body;
+        availableDates,
+      } = req.body;
 
       await RouteSchedule.findOneAndUpdate(
         { _id: id },
-        { routerId,
-        startDestination,
-        endDestination,
-        arrivalTime,
-        departureTime,
-        busNumber,
-        availableDates }
+        {
+          routerId,
+          startDestination,
+          endDestination,
+          arrivalTime,
+          departureTime,
+          availableDates,
+        },
+        { $push: { busNumber: { number: busNumber } } }
       );
       res.json({
         message: "Route Schedule update success",
-        data: { routerId,
-        startDestination,
-        endDestination,
-        arrivalTime,
-        departureTime,
-        busNumber,
-        availableDates },
+        data: {
+          routerId,
+          startDestination,
+          endDestination,
+          arrivalTime,
+          departureTime,
+          busNumber,
+          availableDates,
+        },
       });
     } catch (err) {
       return res.status(500).json({ message: err.message });
@@ -99,6 +127,38 @@ const routeScheduleController = {
 
       await RouteSchedule.findByIdAndDelete({ _id: id });
       res.json({ message: "delete success !" });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  },
+  addABus: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const { busNumber } = req.body;
+
+      const response = await RouteSchedule.findOneAndUpdate(
+        { _id: id },
+        { $push: { busNumber: { number: busNumber } } }
+      );
+      if (response) {
+        await RouteSchedule.findOneAndUpdate(
+          { _id: id },
+          { overcrowded: false }
+        );
+      }
+      res.json({ message: "bus added successfully !" });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  },
+  overcrowd: async (req, res) => {
+    try {
+      const id = req.params.id;
+      await RouteSchedule.findOneAndUpdate(
+        { routerId: id },
+        { overcrowded: true }
+      );
+      res.status(200).json({ message: "bus route overcrowded !" });
     } catch (err) {
       return res.status(500).json({ message: err.message });
     }

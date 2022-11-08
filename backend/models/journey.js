@@ -1,25 +1,28 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema(
+const journeySchema = new Schema(
   {
-    userName: {
+    userId: {
       type: String,
       required: true,
       trim: true,
     },
-    role: {
+    startDestination: {
       type: String,
-      required: true,
       trim: true,
     },
-    email: {
+    endDestination: {
       type: String,
-      required: true,
+      trim: true,
     },
-    password: {
+    status: {
       type: String,
-      required: true,
+      trim: true,
+    },
+    amount: {
+      type: String,
+      trim: true,
     },
   },
   {
@@ -27,4 +30,4 @@ const userSchema = new Schema(
   }
 );
 
-export default model("User", userSchema);
+export default model("Journey", journeySchema);

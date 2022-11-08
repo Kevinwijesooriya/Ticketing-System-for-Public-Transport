@@ -54,6 +54,7 @@ import userRoute from "./routes/user.js";
 import routeScheduleRoute from "./routes/routeSchedule.js";
 import driverRoute from "./routes/driverRoutes.js";
 import inspectorRoute from "./routes/inspector.js";
+import journeyRoute from "./routes/journeyRoutes.js";
 //routes
 app.use("/api", imageUploadRoute);
 app.use("/api", fileUploadRoute);
@@ -62,3 +63,4 @@ app.use(routeScheduleRoute);
 app.use(userRoute);
 app.use(driverRoute);
 app.use(inspectorRoute);
+app.use(journeyRoute);

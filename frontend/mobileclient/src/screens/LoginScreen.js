@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState, createRef } from 'react';
 import {
 	StyleSheet,
@@ -10,16 +11,23 @@ import {
 	TouchableOpacity,
 	KeyboardAvoidingView,
 } from 'react-native';
+import { apiSauce } from '../interceptors/APIClient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {
 	const [userEmail, setUserEmail] = useState('');
 	const [userPassword, setUserPassword] = useState('');
-	const [errortext, setErrortext] = useState('');
 
 	const passwordInputRef = createRef();
+	const storeData = async value => {
+		try {
+			await AsyncStorage.setItem('auth', value);
+		} catch (e) {
+			console.log('storeData ~ e', e);
+		}
+	};
 
-	const handleSubmitPress = () => {
-		setErrortext('');
+	const handleSubmitPress = async () => {
 		if (!userEmail) {
 			alert('Please fill Email');
 			return;
@@ -28,7 +36,31 @@ const LoginScreen = ({ navigation }) => {
 			alert('Please fill Password');
 			return;
 		}
-		navigation.navigate('Home');
+		console.log('Login payload', {
+			email: userEmail,
+			password: userPassword,
+		});
+		try {
+			const response = await apiSauce.post('/api/user/login', {
+				email: userEmail,
+				password: userPassword,
+			});
+			if (response.status !== 200) {
+				alert(response.data.msg);
+				return;
+			}
+			console.log('Login', response);
+			const auth = response.data;
+			if (auth) {
+				const jsonValue = JSON.stringify(auth);
+				storeData(jsonValue);
+				navigation.navigate('Home');
+			} else {
+				alert('Please fill Password');
+			}
+		} catch (error) {
+			console.log('Login error', error);
+		}
 	};
 
 	return (
@@ -92,11 +124,6 @@ const LoginScreen = ({ navigation }) => {
 								returnKeyType="next"
 							/>
 						</View>
-						{errortext != '' ? (
-							<Text style={styles.errorTextStyle}>
-								{errortext}
-							</Text>
-						) : null}
 						<TouchableOpacity
 							style={styles.buttonStyle}
 							activeOpacity={0.5}
@@ -108,7 +135,7 @@ const LoginScreen = ({ navigation }) => {
 							onPress={() =>
 								navigation.navigate('RegisterScreen')
 							}>
-							New Here ? Register
+							Don't have an account? Sign Up
 						</Text>
 					</KeyboardAvoidingView>
 				</View>

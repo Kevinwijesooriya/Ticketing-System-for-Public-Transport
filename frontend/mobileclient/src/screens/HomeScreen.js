@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 const HomeScreen = ({ navigation }) => {
 	return (
 		<>
@@ -8,6 +8,18 @@ const HomeScreen = ({ navigation }) => {
 				activeOpacity={0.5}
 				onPress={() => navigation.navigate('InspectorScreen')}>
 				<Text style={styles.buttonTextStyle}>INSPECTOR</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.buttonStyle}
+				activeOpacity={0.5}
+				onPress={() => navigation.navigate('GetQRScreen')}>
+				<Text style={styles.buttonTextStyle}>GET QR</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.buttonStyle}
+				activeOpacity={0.5}
+				onPress={() => navigation.navigate('OvercrowdScreen')}>
+				<Text style={styles.buttonTextStyle}>Populate Route</Text>
 			</TouchableOpacity>
 		</>
 	);
