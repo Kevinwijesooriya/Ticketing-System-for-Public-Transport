@@ -28,15 +28,15 @@ const RouteScheduleReportGenerator = (routeSchedules) => {
     // for each ticket pass all its data into an array
     routeSchedules.forEach((routeSchedule) => {
         const routeScheduleData = [
-            routeSchedule.routerId,
-            routeSchedule.startDestination,
-            routeSchedule.endDestination,
-            routeSchedule.arrivalTime,
-            routeSchedule.departureTime,
-            routeSchedule.busNumber,
-            routeSchedule.availableDates,
-            // called date-fns to format the date on the ticket
-            // format(new Date(ticket.updatedat), "yyyy-MM-dd")
+          routeSchedule.routerId,
+          routeSchedule.startDestination,
+          routeSchedule.endDestination,
+          routeSchedule.arrivalTime,
+          routeSchedule.departureTime,
+          routeSchedule.busNumber.map((number) => number),
+          routeSchedule.availableDates,
+          // called date-fns to format the date on the ticket
+          // format(new Date(ticket.updatedat), "yyyy-MM-dd")
         ];
         // push each tickcet's info into a row
         tableRows.push(routeScheduleData);
