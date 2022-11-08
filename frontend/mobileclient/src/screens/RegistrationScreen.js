@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, createRef, useEffect } from 'react';
 import {
 	StyleSheet,
@@ -11,8 +13,6 @@ import {
 	ScrollView,
 	Switch,
 } from 'react-native';
-
-import Loader from '../components/Loader';
 import { apiSauce } from '../interceptors/APIClient';
 
 const RegisterScreen = props => {
@@ -212,7 +212,7 @@ const RegisterScreen = props => {
 							blurOnSubmit={false}
 						/>
 					</View>
-					{errortext != '' ? (
+					{errortext !== '' ? (
 						<Text style={styles.errorTextStyle}>{errortext}</Text>
 					) : null}
 					<TouchableOpacity
@@ -241,7 +241,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#004a9c',
 		borderWidth: 0,
 		color: '#FFFFFF',
-		// borderColor: '#7DE24E',
 		height: 40,
 		alignItems: 'center',
 		borderRadius: 30,

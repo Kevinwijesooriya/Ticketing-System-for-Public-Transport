@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-native';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 

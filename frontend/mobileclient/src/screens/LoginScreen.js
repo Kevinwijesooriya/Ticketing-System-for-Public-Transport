@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
 import React, { useState, createRef } from 'react';
 import {
