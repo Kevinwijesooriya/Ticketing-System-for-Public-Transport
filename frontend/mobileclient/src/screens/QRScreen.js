@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';

@@ -27,7 +27,9 @@ const EndUserJourneyScreen = ({ navigation, route }) => {
 		}
 	};
 	const calculateFee = () => {
-		setAmount('300.00');
+		let number = Math.floor(Math.random() * 20) + 1;
+		let fee = number * 37;
+		setAmount(fee.toString());
 	};
 	return (
 		<>
