@@ -33,7 +33,7 @@ const RouteScheduleReportGenerator = (routeSchedules) => {
           routeSchedule.endDestination,
           routeSchedule.arrivalTime,
           routeSchedule.departureTime,
-          routeSchedule.busNumber.map((number) => number),
+          routeSchedule.busNumber.map((number) => number.number),
           routeSchedule.availableDates,
           // called date-fns to format the date on the ticket
           // format(new Date(ticket.updatedat), "yyyy-MM-dd")
